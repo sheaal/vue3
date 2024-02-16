@@ -9,23 +9,25 @@
 </head>
 <body>
 <div id="app">
-    <div class="column" v-for="(column, index) in columns" :key="index">
-        <h3>{{ column.title }}</h3>
-        <draggable v-model="column.tasks" class="task-list" :options="{ group: 'tasks' }" @start="drag=true" @end="drag=false">
-            <transition-group>
-                <div class="task-card" v-for="(task, taskIndex) in column.tasks" :key="task.id">
-                    <div class="task-actions" v-if="isEditingTask(task) || isFirstTask(taskIndex, column.tasks)">
-                        <button @click="removeTask(task, column)">Delete</button>
-                        <button @click="saveTask(task)">Save</button>
+    <div class="grid-container">
+        <div class="column" v-for="(column, index) in columns" :key="index">
+            <h3>{{ column.title }}</h3>
+            <draggable v-model="column.tasks" class="task-list" :options="{ group: 'tasks' }" @start="drag=true" @end="drag=false">
+                <transition-group>
+                    <div class="task-card" v-for="(task, taskIndex) in column.tasks" :key="task.id">
+                        <div class="task-actions" v-if="isEditingTask(task) || isFirstTask(taskIndex, column.tasks)">
+                            <button @click="removeTask(task, column)">Delete</button>
+                            <button @click="saveTask(task)">Save</button>
+                        </div>
+                        <input v-model="task.title" type="text" class="task-title" v-if="isEditingTask(task)">
+                        <p class="task-title" v-else>{{ task.title }}</p>
+                        <textarea v-model="task.description" class="task-description"></textarea>
+                        <input v-model="task.deadline" type="datetime-local" class="task-deadline">
                     </div>
-                    <input v-model="task.title" type="text" class="task-title" v-if="isEditingTask(task)">
-                    <p class="task-title" v-else>{{ task.title }}</p>
-                    <textarea v-model="task.description" class="task-description"></textarea>
-                    <input v-model="task.deadline" type="datetime-local" class="task-deadline">
-                </div>
-            </transition-group>
-        </draggable>
-        <button v-if="column.title === 'Запланированные задачи'" @click="addTask(column)">Add Task</button>
+                </transition-group>
+            </draggable>
+            <button v-if="column.title === 'Запланированные задачи'" @click="addTask(column)">Add Task</button>
+        </div>
     </div>
 </div>
 <script defer src="./js/vue.js"></script>
