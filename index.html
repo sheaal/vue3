@@ -25,11 +25,12 @@
                         <input v-model="task.deadline" type="datetime-local" class="task-deadline">
 
                         <div class="task-card" :class="{ overdue: task.overdue }">
-                            <input v-if="task.isEditing" v-model="task.deadline" type="date" class="task-deadline" @input="checkDeadline(task)">
+                            <input v-if="task.isEditing" v-model="task.deadline" type="datetime-local" class="task-deadline" @input="checkDeadline(task)">
                             <div v-if="task.isOverdue" class="task-overdue">Overdue</div>
                             <div v-if="!task.isOverdue" class="task-completed">Completed on time</div>
                         </div>
                     </div>
+
                 </transition-group>
             </div>
 

@@ -99,15 +99,16 @@ const app = new Vue({
             this.updateTaskDates(taskToMove);
         },
         moveToCompletedtasks() {
+
             const testingColumn = this.columns.find(col => col.title === 'Тестирование');
             const completedColumn = this.columns.find(col => col.title === 'Выполненные задачи');
 
             const index = testingColumn.tasks.findIndex(task => task.title === 'Task to Move');
 
-            if (index !== -1) {
-                const task = testingColumn.tasks.splice(index, 1)[0];
-                completedColumn.tasks.push(task);
-            }
+            const task = testingColumn.tasks.splice(index, 1)[0];
+
+            completedColumn.tasks.push(task);
+
         },
         editTask(task) {
             task.isEditing = !task.isEditing;
@@ -115,7 +116,7 @@ const app = new Vue({
         checkDeadline(task) {
             const currentDate = new Date();
             const deadlineDate = new Date(task.deadline);
-
+            console.log(task);
             if (deadlineDate < currentDate) {
                 task.isOverdue = true;
             } else {
