@@ -87,5 +87,17 @@ const app = new Vue({
             this.updateTaskDates(taskToMove);
             checkDeadline(taskToMove);
         },
+        moveToWork(column, reason) {
+            if (!reason) {
+                alert('Please provide a reason for returning the task to work.');
+                return;
+            }
+
+            const taskToMove = column.tasks.shift();
+            taskToMove.reasonToWork = reason;
+            taskToMove.testingDate = new Date();
+            this.columns[1].tasks.push(taskToMove);
+            this.updateTaskDates(taskToMove);
+        },
     },
 });

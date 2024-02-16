@@ -31,7 +31,9 @@
             <button v-if="column.title === 'Задачи в работе'" @click="addTask(column)">Add Task</button>
             <button v-if="column.title === 'Задачи в работе'" @click="moveToTesting(column)">Move to Testing</button>
             <button v-if="column.title === 'Тестирование'" @click="addTask(column)">Add Task</button>
-            <button v-if="column.title === 'Тестирование'" @click="moveToDone(column)">Move to Done</button>
+            <input type="text" v-model="returnReason" placeholder="Reason for returning to work" class="return-reason" v-if="column.title === 'Тестирование'">
+            <button v-if="column.title === 'Тестирование'" @click="moveToWork(column, returnReason)">Move to work</button>
+
         </div>
 
 
