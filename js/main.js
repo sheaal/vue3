@@ -2,6 +2,7 @@ const app = new Vue({
     el: '#app',
     data() {
         return {
+            returnReason: '',
             columns: [
                 {
                     title: 'Запланированные задачи',
@@ -29,6 +30,7 @@ const app = new Vue({
                     tasks: [],
                 },
             ],
+            completedTasks: [],
         };
     },
     methods: {
@@ -55,9 +57,6 @@ const app = new Vue({
         removeTask(task, column) {
             column.tasks = column.tasks.filter((t) => t.id !== task.id);
             this.updateTaskDates(task);
-        },
-        saveTask(task) {
-            task.updatedAt = new Date();
         },
         isEditingTask(task) {
             return task.updatedAt === null;
@@ -99,5 +98,30 @@ const app = new Vue({
             this.columns[1].tasks.push(taskToMove);
             this.updateTaskDates(taskToMove);
         },
+        moveToCompletedtasks() {
+            const testingColumn = this.columns.find(col => col.title === 'Тестирование');
+            const completedColumn = this.columns.find(col => col.title === 'Выполненные задачи');
+
+            const index = testingColumn.tasks.findIndex(task => task.title === 'Task to Move');
+
+            if (index !== -1) {
+                const task = testingColumn.tasks.splice(index, 1)[0];
+                completedColumn.tasks.push(task);
+            }
+        },
+        editTask(task) {
+            task.isEditing = !task.isEditing;
+        },
+        checkDeadline(task) {
+            const currentDate = new Date();
+            const deadlineDate = new Date(task.deadline);
+
+            if (deadlineDate < currentDate) {
+                task.isOverdue = true;
+            } else {
+                task.isOverdue = false;
+            }
+        },
+
     },
 });

@@ -2,7 +2,7 @@
     margin-bottom: 20px;
     grid-column: span 1;
     padding: 20px;
-    border: 1px solid #ccc;
+    border: 2px solid #3fde49;
 }
 .card {
     margin-bottom: 10px;
@@ -21,4 +21,13 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr); /* Разделить на 4 столбца */
     gap: 20px;
+}
+button{
+    border-color: #00ffc9;
+}
+input{
+    border-color: #51851b;
+}
+textarea{
+    border-color: #51851b;
 }
