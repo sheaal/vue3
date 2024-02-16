@@ -71,5 +71,10 @@ const app = new Vue({
             }
             task.updatedAt = new Date();
         },
+        moveToInProgress(column) {
+            const taskToMove = column.tasks.shift();
+            this.columns[1].tasks.push(taskToMove);
+            this.updateTaskDates(taskToMove);
+        },
     },
 });
