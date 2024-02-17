@@ -3,6 +3,9 @@ const app = new Vue({
     data() {
         return {
             returnReason: '',
+            isOverdue: false,
+            lastChange: null,
+            dateCreation: null,
             columns: [
                 {
                     title: 'Запланированные задачи',
@@ -11,6 +14,8 @@ const app = new Vue({
                             id: 1,
                             title: '',
                             description: '',
+                            lastChange: null,
+                            dateCreation: new Date(),
                             deadline: '',
                             createdAt: new Date(),
                             updatedAt: null,
@@ -42,6 +47,11 @@ const app = new Vue({
                 deadline: '',
                 createdAt: new Date(),
                 updatedAt: null,
+                isEditing: false,
+                initialDeadline: null,
+                isOverdue: false,
+                reasonToWork: null,
+                testingDate: null,
             };
             column.tasks.push(newTask);
             this.$nextTick(() => {
@@ -86,18 +96,25 @@ const app = new Vue({
             this.updateTaskDates(taskToMove);
             checkDeadline(taskToMove);
         },
-        moveToWork(column, reason) {
-            if (!reason) {
+        moveToWork(column) {
+            if (!this.returnReason) {
                 alert('Please provide a reason for returning the task to work.');
                 return;
             }
 
             const taskToMove = column.tasks.shift();
-            taskToMove.reasonToWork = reason;
+            taskToMove.returnReason = this.returnReason;
             taskToMove.testingDate = new Date();
             this.columns[1].tasks.push(taskToMove);
             this.updateTaskDates(taskToMove);
         },
+
+        // moveToWork(column, returnReason) {
+        //     const taskToMove = column.tasks.shift();
+        //     taskToMove.returnReason = returnReason;
+        //     this.updateTaskDates(taskToMove);
+        //     this.columns[0].tasks.push(taskToMove);
+        // },
         moveToCompletedtasks() {
 
             const testingColumn = this.columns.find(col => col.title === 'Тестирование');
@@ -110,8 +127,31 @@ const app = new Vue({
             completedColumn.tasks.push(task);
 
         },
+        updateTaskDates(task) {
+            if (task.updatedAt === null) {
+                task.createdAt = new Date();
+            }
+            task.updatedAt = new Date();
+            task.lastChange = task.updatedAt;
+        },
+        updateTaskDates(task) {
+            if (task.createdAt === null) {
+                task.createdAt = new Date();
+            }
+            task.updatedAt = new Date();
+            task.lastChange = task.updatedAt;
+        },
         editTask(task) {
-            task.isEditing = !task.isEditing;
+            task.isEditing = true;
+            task.initialDeadline = task.deadline;
+        },
+        saveTask(task) {
+            task.isEditing = false;
+            // this.updateTaskDates(task);
+        },
+        cancelEditingTask(task) {
+            task.isEditing = false;
+            task.deadline = task.initialDeadline;
         },
         checkDeadline(task) {
             const currentDate = new Date();
@@ -119,10 +159,12 @@ const app = new Vue({
             console.log(task);
             if (deadlineDate < currentDate) {
                 task.isOverdue = true;
-            } else {
-                task.isOverdue = false;
             }
         },
-
+        // checkDeadline(task) {
+        //     const currentDate = new Date();
+        //     const deadlineDate = new Date(task.deadline);
+        //     task.isOverdue = deadlineDate < currentDate;
+        // },
     },
 });

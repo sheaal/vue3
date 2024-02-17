@@ -31,3 +31,9 @@ input{
 textarea{
     border-color: #51851b;
 }
+.task-card-col-4 {
+    grid-column: 4;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+}
