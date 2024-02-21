@@ -107,7 +107,7 @@ const app = new Vue({
         },
         moveToWork(column) {
             if (!this.returnReason) {
-                alert('Please provide a reason for returning the task to work.');
+                alert('Пожалуйста, укажите причину для возврата задачи на работу.');
                 return;
             }
 
@@ -116,8 +116,10 @@ const app = new Vue({
             taskToMove.testingDate = new Date();
             this.columns[1].tasks.push(taskToMove);
             this.updateTaskDates(taskToMove);
+            this.checkDeadline(taskToMove);
         },
-        moveToCompletedtasks() {
+
+        moveToCompletedtasks(column) {
             const testingColumn = this.columns.find(col => col.title === 'Тестирование');
             const completedColumn = this.columns.find(col => col.title === 'Выполненные задачи');
 

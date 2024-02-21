@@ -43,10 +43,11 @@
                 </transition-group>
             </div>
             <button v-if="column.title === 'Задачи в работе'" @click="moveToTesting(column)">Move to Testing</button>
-            <button v-if="column.title === 'Тестирование'" @click="moveToCompletedtasks(column)">Move to Completed tasks</button>
-            <button v-if="column.title === 'Тестирование'" @click="moveToWork(column, returnReason)">Move to work</button>
-            <input type="text" v-model="returnReason" placeholder="Reason for returning to work" class="return-reason" v-if="column.title === 'Тестирование'">
-        </div>
+            <div v-show="column.tasks.length === 1" >
+                <button v-if="column.title === 'Тестирование'" @click="moveToCompletedtasks(column)">Move to Completed tasks</button>
+                <button v-if="column.title === 'Тестирование'" @click="moveToWork(column, returnReason)">Move to work</button>
+                <input type="text" v-model="returnReason" placeholder="Reason for returning to work" class="return-reason" v-if="column.title === 'Тестирование'">
+            </div>
     </div>
 </div>
 <script defer src="./js/vue.js"></script>
