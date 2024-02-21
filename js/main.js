@@ -96,7 +96,7 @@ const app = new Vue({
         },
         moveToTesting(column) {
             const taskToMove = column.tasks.shift();
-            this.columns[2].tasks.push(taskToMove);
+            this.columns.find(col => col.title === 'Тестирование').tasks.push(taskToMove);
             this.updateTaskDates(taskToMove);
         },
         moveToDone(column) {
